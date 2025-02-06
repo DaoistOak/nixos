@@ -1,0 +1,227 @@
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
+
+{ config, pkgs, ... }:
+
+{
+  imports =
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ];
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.dates = "weekly";
+  nix.gc.automatic = true;
+  nix.gc.dates = "daily";
+  nix.gc.options = "--delete-older-than 3d";
+  nix.settings.auto-optimise-store = true;
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  networking.hostName = "Overlord"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Enable networking
+  networking.networkmanager.enable = true;
+
+  # Set your time zone.
+  time.timeZone = "Asia/Kathmandu";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  # Enable the X11 windowing system.
+  # You can disable this if you're only using the Wayland session.
+  services.xserver.enable = true;
+
+  # Enable the KDE Plasma Desktop Environment.
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      runAsRoot = false;  # Optional: Run QEMU as non-root
+    };
+  };
+    virtualisation.libvirtd.extraConfig = ''
+    virtiofsd = "/run/current-system/sw/bin/virtiofsd"
+  '';
+
+
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+# Disable PulseAudio
+  # Enable PipeWire with PulseAudio replacement and ALSA support
+  services.pipewire = {
+    enable = true;                 # Enable PipeWire
+    alsa.enable = true;            # Enable ALSA support for PipeWire
+    alsa.support32Bit = true;      # 32-bit ALSA support
+    pulse.enable = true;           # Enable PipeWire's PulseAudio replacement
+    jack.enable = false;           # Disable JACK if not needed
+  };
+
+  # Enable WirePlumber (session manager for PipeWire)
+  services.pipewire.wireplumber.enable = true;
+
+  # Enable real-time scheduling (optional, helpful for low-latency audio)
+  security.rtkit.enable = true;
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.zeph = {
+    shell = pkgs.zsh;
+    isNormalUser = true;
+    description = "Shrijan Dahal";
+    extraGroups = [ "networkmanager" "wheel" "audio" "libvirtd" "kvm" "qemu-libvirtd"];
+    packages = with pkgs; [
+    #  thunderbird
+    ];
+
+  };
+    environment.variables.ZDOTDIR = "/home/zeph/.config/zsh";
+    environment.variables.XDG_CONFIG_HOME = "/home/zeph/.config";
+    environment.variables.XDG_DATA_HOME = "/home/zeph/.local/share";
+    environment.variables.XDG_CACHE_HOME = "/home/zeph/.cache";
+
+  programs.zsh.enable=true;
+  # /etc/nixos/configuration.nix
+  virtualisation.docker.enable = true;
+  users.extraGroups = {
+    docker.members = [ "zeph" ];  # Replace "zeph" with your username
+  };
+  # Install firefox.
+  programs.firefox.enable = true;
+  programs.hyprland.enable = true;
+
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;  # Optional: For a GUI Bluetooth manager
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+ nixpkgs.config.packageOverrides = pkgs: {
+  nur = import (builtins.fetchTarball {
+    url = "https://github.com/nix-community/NUR/archive/master.tar.gz";
+  }) {
+    inherit pkgs;
+  };
+};
+
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    kdePackages.kate
+    ntfs3g
+    zsh
+    fish
+    code-cursor
+    neovim
+	vim
+	git
+	kitty# Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+	cmake
+	gnumake
+	gnumake42
+	libgcc
+	libgccjit
+	binutils
+	bintools
+	glibc
+	pkg-config
+	ninja
+	zlib
+	openssl
+	curl
+	wget
+	gdb
+	automake
+	catppuccin-sddm
+	catppuccin-cursors.macchiatoLight
+	papirus-folders
+	libsForQt5.qtstyleplugin-kvantum
+	kdePackages.qtstyleplugin-kvantum
+	catppuccin-kvantum
+	catppuccin-papirus-folders
+	nur.repos.shadowrz.klassy-qt6
+	nur.repos.zzzsy.zen-browser
+    nur.repos.mikilio.ttf-ms-fonts
+	unzip
+    lutris
+    flatpak
+    steam
+    onlyoffice-desktopeditors
+    onlyoffice-documentserver
+    keepassxc
+    syncthing
+    ollama
+    home-manager
+    qt5.full
+    oh-my-zsh
+    zoxide
+    eza
+    kdePackages.flatpak-kcm
+    spotify
+    kdePackages.bluez-qt
+    bluedevil
+    vimPlugins.nvchad
+    wineWowPackages.waylandFull
+    ungoogled-chromium
+    killall
+    fzf
+    btop
+    ffmpeg
+    virt-manager  # GUI for managing VMs
+    qemu          # QEMU emulator
+    libvirt       # Virtualization toolkit
+    OVMF
+    dnsmasq
+    virtiofsd
+    nil# UEFI firmware for VMs (for Windows VMs)
+    times-newer-roman
+    syncthing
+    syncthingtray
+  #  wget
+  ];
+  services.flatpak.enable=true;
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
+
+  # List services that you want to enable:
+
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "24.11"; # Did you read the comment?
+
+}
