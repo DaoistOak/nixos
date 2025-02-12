@@ -78,6 +78,7 @@ environment.systemPackages = with pkgs; [
     xclip
     kbd
     terminus_font
+    tmux
 
     #Power Managemant
     auto-cpufreq
