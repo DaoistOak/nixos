@@ -1,78 +1,101 @@
 { pkgs, ... }:
-
 {
-  environment.systemPackages = with pkgs; [
-    kdePackages.kate
-    ntfs3g
-    zsh
-    fish
-    code-cursor
-    neovim
-    vim
-    git
-    kitty
-    cmake
-    gnumake
-    gnumake42
-    libgcc
-    libgccjit
-    binutils
-    bintools
-    glibc
-    pkg-config
-    ninja
-    zlib
-    openssl
-    curl
-    wget
-    gdb
-    automake
-    catppuccin-sddm
+environment.systemPackages = with pkgs; [
+    # GUI Packages
     catppuccin-cursors.macchiatoLight
-    papirus-folders
-    kdePackages.qtstyleplugin-kvantum
     catppuccin-kvantum
     catppuccin-papirus-folders
-    nur.repos.shadowrz.klassy-qt6
-    nur.repos.zzzsy.zen-browser
-    nur.repos.mikilio.ttf-ms-fonts
-    unzip
+    catppuccin-sddm
+    code-cursor
+    kdePackages.bluez-qt
+    kdePackages.bluedevil
+    kdePackages.flatpak-kcm
+    kdePackages.kate
+    kdePackages.qtstyleplugin-kvantum
     lutris
-    flatpak
-    steam
     onlyoffice-desktopeditors
     onlyoffice-documentserver
-    keepassxc
-    syncthing
-    ollama
-    home-manager
-    qt5.full
-    oh-my-zsh
-    zoxide
-    eza
-    kdePackages.flatpak-kcm
+    papirus-folders
     spotify
-    kdePackages.bluez-qt
-    bluedevil
-    vimPlugins.nvchad
-    wineWowPackages.waylandFull
+    syncthingtray
     ungoogled-chromium
-    killall
-    fzf
-    btop
-    ffmpeg
     virt-manager
-    qemu
-    libvirt
-    OVMF
-    dnsmasq
-    virtiofsd
+    wineWowPackages.waylandFull
+    keepassxc
+    home-manager
+    oh-my-zsh
     nil
     times-newer-roman
-    syncthing
-    syncthingtray
     firefox
-  ];
+    webcord-vencord
+
+    # TUI Packages
+    automake
+    btop
+    cmake
+    curl
+    gcc
+    glibc
+    glibc.dev
+    binutils
+    dnsmasq
+    eza
+    ffmpeg
+    fish
+    flatpak
+    fzf
+    git
+    glibc
+    gnumake
+    gnumake42
+    killall
+    libgcc
+    libgccjit
+    libvirt
+    virtiofsd
+    ninja
+    openssl
+    pkg-config
+    qemu
+    qt5.full
+    syncthing
+    unzip
+    vim
+    vimPlugins.nvchad
+    wget
+    zlib
+    zoxide
+    ntfs3g
+    neovim
+    kitty
+    binutils
+    bintools
+    gdb
+    OVMF
+    amdgpu_top
+    mesa
+    wl-clipboard
+    xclip
+    kbd
+    terminus_font
+
+    #Power Managemant
+    auto-cpufreq
+    tlp
+    preload
+    powertop
+    thermald
+    cpufrequtils
+    upower
+    # NUR Packages
+    nur.repos.mikilio.ttf-ms-fonts
+    nur.repos.shadowrz.klassy-qt6
+    nur.repos.zzzsy.zen-browser
+];
+fonts = {
+  packages = with pkgs; [ terminus_font ];
+};
+
 
   # Enable Docker
   virtualisation.docker.enable = true;

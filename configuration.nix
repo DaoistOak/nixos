@@ -2,61 +2,98 @@
 
 {
   # Import configuration files
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./pkgs.nix
-      ./users.nix
-      ./GUI.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./pkgs.nix
+    ./users.nix
+    ./GUI.nix
+  ];
 
-  # Automatic updates and garbage collection
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.dates = "weekly";
-  nix.gc.automatic = true;
-  nix.gc.dates = "daily";
-  nix.gc.options = "--delete-older-than 3d";
-  nix.settings.auto-optimise-store = true;
+  # System settings
+  system = {
+    autoUpgrade = {
+      enable = true;
+      dates = "weekly";
+    };
+    stateVersion = "24.11";
+  };
 
-  # Bootloader and system settings
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Nix settings
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 3d";
+    };
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = [ "nix-command" "flakes" ];
+    };
+  };
 
-  # Set system hostname
-  networking.hostName = "Overlord";
+  # Bootloader settings
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 
-  # Network management
-  networking.networkmanager.enable = true;
+  # Networking settings
+  networking = {
+    hostName = "Overlord";
+    networkmanager.enable = true;
+  };
 
-  # Set time zone and locale
+  # Localization settings
   time.timeZone = "Asia/Kathmandu";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Virtualization (Libvirt, QEMU, VirtioFS)
-  virtualisation.libvirtd.enable = true;
-  virtualisation.libvirtd.extraConfig = ''
-    virtiofsd = "/run/current-system/sw/bin/virtiofsd"
-  '';
-
-  # Configure keyboard layout
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+  # Virtualization
+  virtualisation.libvirtd = {
+    enable = true;
+    extraConfig = ''
+      virtiofsd = "/run/current-system/sw/bin/virtiofsd"
+    '';
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # NUR (Nix User Repository) integration
-  nixpkgs.config.packageOverrides = pkgs: {
-    nur = import (builtins.fetchTarball {
-      url = "https://github.com/nix-community/NUR/archive/master.tar.gz";
-    }) { inherit pkgs; };
+  # Console settings
+  console.font = "ter-u16n";
+  # Services configuration
+  services = {
+    xserver.xkb = {
+      layout = "us";
+      variant = "";
+    };
+    blueman.enable = false;
+    power-profiles-daemon.enable = false;
+    tlp = {
+      enable = true;
+      settings = {
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+        CPU_BOOST_ON_BAT = 0;
+        CPU_BOOST_ON_AC = 1;
+        WIFI_PWR_ON_BAT = "on";
+        RUNTIME_PM_ON_BAT = "auto";
+        DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wifi wwan";
+        DEVICES_TO_ENABLE_ON_AC = "bluetooth wifi wwan";
+      };
+    };
+    auto-cpufreq.enable = true;
+    preload.enable = true;
   };
 
-  # Enable experimental features
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-
-  # Define system state version
-  system.stateVersion = "24.11";
+  # Nixpkgs settings
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      packageOverrides = pkgs: {
+        nur = import (builtins.fetchTarball {
+          url = "https://github.com/nix-community/NUR/archive/master.tar.gz";
+        }) { inherit pkgs; };
+      };
+    };
+  };
 }
+

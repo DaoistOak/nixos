@@ -6,7 +6,7 @@
     shell = pkgs.zsh;
     isNormalUser = true;
     description = "SD";
-    extraGroups = [ "networkmanager" "wheel" "audio" "libvirtd" "kvm" "qemu-libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "libvirtd" "kvm" "qemu-libvirtd" "nixos"];
   };
 
   # User-specific environment variables
