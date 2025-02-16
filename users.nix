@@ -23,4 +23,5 @@
   # Enable Docker and add user to the group
   virtualisation.docker.enable = true;
   users.extraGroups.docker.members = [ "zeph" ];
+
 }

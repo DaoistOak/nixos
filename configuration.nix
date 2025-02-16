@@ -70,7 +70,7 @@
       settings = {
         CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
         CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "powersave";
         CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
         CPU_BOOST_ON_BAT = 0;
         CPU_BOOST_ON_AC = 1;
@@ -80,10 +80,22 @@
         DEVICES_TO_ENABLE_ON_AC = "bluetooth wifi wwan";
       };
     };
-    auto-cpufreq.enable = true;
-    preload.enable = true;
+    auto-cpufreq = {
+      enable = true;
+      settings = {
+        battery = {
+          governor = "powersave";
+          turbo = "never";
+        };
+        charger = {
+          governor = "performance";
+          turbo = "auto";
+        };
+      };
+    };
+   preload.enable = true;
   };
-
+  powerManagement.powertop.enable = true;
   # Nixpkgs settings
   nixpkgs = {
     config = {

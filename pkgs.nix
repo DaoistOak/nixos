@@ -16,7 +16,6 @@ environment.systemPackages = with pkgs; [
     onlyoffice-desktopeditors
     onlyoffice-documentserver
     papirus-folders
-    spotify
     syncthingtray
     ungoogled-chromium
     virt-manager
@@ -79,6 +78,10 @@ environment.systemPackages = with pkgs; [
     kbd
     terminus_font
     tmux
+    nodejs
+    python3
+    toybox
+    bat
 
     #Power Managemant
     auto-cpufreq
