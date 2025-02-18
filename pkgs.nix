@@ -12,6 +12,7 @@ environment.systemPackages = with pkgs; [
     kdePackages.flatpak-kcm
     kdePackages.kate
     kdePackages.qtstyleplugin-kvantum
+    kdePackages.sddm-kcm
     lutris
     onlyoffice-desktopeditors
     onlyoffice-documentserver
@@ -82,6 +83,12 @@ environment.systemPackages = with pkgs; [
     python3
     toybox
     bat
+    docker-compose
+    lazydocker
+    luarocks
+    cargo
+    lm_sensors
+    brightnessctl
 
     #Power Managemant
     auto-cpufreq
