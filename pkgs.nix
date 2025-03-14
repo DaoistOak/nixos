@@ -1,6 +1,19 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
-environment.systemPackages = with pkgs; [
+
+  # Nixpkgs settings
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowUnsupportedSystem = true;
+      packageOverrides = pkgs: {
+        nur = import (builtins.fetchTarball {
+          url = "https://github.com/nix-community/NUR/archive/master.tar.gz";
+        }) { inherit pkgs; };
+      };
+    };
+  };
+  environment.systemPackages = with pkgs; [
     # GUI Packages
     catppuccin-cursors.macchiatoLight
     catppuccin-kvantum
@@ -13,6 +26,8 @@ environment.systemPackages = with pkgs; [
     kdePackages.kate
     kdePackages.qtstyleplugin-kvantum
     kdePackages.sddm-kcm
+    kdePackages.plasma-nm
+    kdePackages.dragon
     lutris
     onlyoffice-desktopeditors
     onlyoffice-documentserver
@@ -27,13 +42,15 @@ environment.systemPackages = with pkgs; [
     nil
     times-newer-roman
     firefox
-    webcord-vencord
-
+    qbittorrent
+    discord
     # TUI Packages
     automake
     btop
+    busybox
     cmake
     curl
+    coreutils-full
     gcc
     glibc
     glibc.dev
@@ -55,6 +72,7 @@ environment.systemPackages = with pkgs; [
     virtiofsd
     ninja
     openssl
+    ollama
     pkg-config
     qemu
     qt5.full
@@ -68,7 +86,6 @@ environment.systemPackages = with pkgs; [
     ntfs3g
     neovim
     kitty
-    binutils
     bintools
     gdb
     OVMF
@@ -80,8 +97,8 @@ environment.systemPackages = with pkgs; [
     terminus_font
     tmux
     nodejs
-    python3
-    toybox
+    psmisc
+
     bat
     docker-compose
     lazydocker
@@ -89,7 +106,18 @@ environment.systemPackages = with pkgs; [
     cargo
     lm_sensors
     brightnessctl
-
+    mesa
+    mesa-demos
+    vulkan-tools
+    amdvlk
+    pciutils
+    radeontop
+    spice
+    spice-vdagent
+    virglrenderer
+    appimage-run
+    util-linux
+    swayidle
     #Power Managemant
     auto-cpufreq
     tlp
@@ -98,14 +126,16 @@ environment.systemPackages = with pkgs; [
     thermald
     cpufrequtils
     upower
+    jre
+    distrobox
     # NUR Packages
     nur.repos.mikilio.ttf-ms-fonts
     nur.repos.shadowrz.klassy-qt6
-    nur.repos.zzzsy.zen-browser
-];
-fonts = {
-  packages = with pkgs; [ terminus_font ];
-};
+    # nur.repos.zzzsy.zen-browser
+  ];
+  fonts = {
+    packages = with pkgs; [ terminus_font ];
+  };
 
 
   # Enable Docker

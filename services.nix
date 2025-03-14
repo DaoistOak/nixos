@@ -2,6 +2,9 @@
 
 {
   services = {
+    ollama = {
+      enable = true;
+    };
     xserver.xkb = {
       layout = "us";
       variant = "";
@@ -46,7 +49,7 @@
 
     preload.enable = true;
   };
-
+  systemd.services.NetworkManager-wait-online.enable = true;
   powerManagement.powertop.enable = true;
 }
 

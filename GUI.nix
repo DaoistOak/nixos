@@ -9,8 +9,10 @@
   services.desktopManager.plasma6.enable = true;
 
   # Enable Hyprland (Optional)
-  programs.hyprland.enable = true;
-
+  programs.hyprland ={
+    enable = true;
+    xwayland.enable=true;
+  };
 
   # PipeWire (Audio)
   services.pipewire = {

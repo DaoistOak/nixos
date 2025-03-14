@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   # Import configuration files
@@ -41,8 +41,17 @@
   # Networking settings
   networking = {
     hostName = "Overlord";
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      settings = {
+        main = {
+          connectivity = "true";
+          connectivity-check-url = "https://connectivity-check.kde.org";
+        };
+      };
+    };
   };
+
 
   # Localization settings
   time.timeZone = "Asia/Kathmandu";
@@ -59,16 +68,5 @@
   # Console settings
   # /run/current-system/sw/share/consolefonts/ter-u16n.psfu.gz
   console.font = "/run/current-system/sw/share/consolefonts/ter-u18n.psf.gz";
-  # Nixpkgs settings
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      packageOverrides = pkgs: {
-        nur = import (builtins.fetchTarball {
-          url = "https://github.com/nix-community/NUR/archive/master.tar.gz";
-        }) { inherit pkgs; };
-      };
-    };
-  };
 }
 

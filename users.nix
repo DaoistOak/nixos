@@ -19,6 +19,7 @@
 
   # Enable Zsh
   programs.zsh.enable = true;
+  programs.direnv.enableZshIntegration=true;
 
   # Enable Docker and add user to the group
   virtualisation.docker.enable = true;
