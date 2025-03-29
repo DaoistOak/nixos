@@ -44,6 +44,7 @@
     firefox
     qbittorrent
     discord
+    thunderbird
     # TUI Packages
     automake
     btop

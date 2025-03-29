@@ -9,6 +9,8 @@
   boot.kernelModules = [ "kvm-amd" "amdgpu" ];
   boot.kernelParams = [ "amdgpu.runpm=1" ];
   boot.extraModulePackages = [ ];
+  # Set the CachyOS kernel
+  boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
   hardware = {
     enableRedistributableFirmware = true;
   };
@@ -42,4 +44,5 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.bluetooth.enable = true;
+
 }
