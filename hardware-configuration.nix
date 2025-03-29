@@ -12,14 +12,14 @@
   hardware = {
     enableRedistributableFirmware = true;
   };
+
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/1d85fc3e-0306-487e-a64e-36355332f69d";
-      fsType = "btrfs";
-      options = [ "subvol=@" ];
+    { device = "/dev/disk/by-uuid/810473a7-303c-422f-8044-62bb49e4dc40";
+      fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/78A7-020D";
+    { device = "/dev/disk/by-uuid/EEC0-0B8F";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
@@ -30,7 +30,7 @@
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/8b1f3e8f-3d2c-45c2-98ee-1abf8c3abdc1"; }
+    [ { device = "/dev/disk/by-uuid/4d61df78-3b8d-477e-812d-f1fa35885a66"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
