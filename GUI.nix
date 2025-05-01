@@ -1,17 +1,21 @@
-{ config, pkgs, ... }:
-
+{ config, pkgs, inputs, ... }:
 {
   # Enable X11
   services.xserver.enable = true;
 
+  # Enable SDDM
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+    theme = "catppuccin-macchiato";
+  };
   # Enable KDE Plasma 6
-  services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   # Enable Hyprland (Optional)
   programs.hyprland ={
     enable = true;
-    xwayland.enable=true;
+    xwayland.enable = true;
   };
 
   # PipeWire (Audio)

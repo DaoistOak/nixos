@@ -5,12 +5,23 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" "amdgpu" ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [ "amdgpu.runpm=1" ];
+  boot.plymouth = { 
+    enable = true;
+    theme = "seal_2";
+    themePackages = [
+      (pkgs.runCommand "adi1090x-plymouth-themes" { } ''
+        mkdir -p $out/share/plymouth/themes
+        cp -r ${/nix/store/gnn56cmpj4ch8glilj120k4ld4gvxlwa-adi1090x-plymouth-themes-1.0}/share/plymouth/themes/* $out/share/plymouth/themes/
+      '')
+    ];
+  };
   boot.extraModulePackages = [ ];
   # Set the CachyOS kernel
-  boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
+  boot.kernelPackages = pkgs.linuxPackages_cachyos;
+  # boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
   hardware = {
     enableRedistributableFirmware = true;
   };

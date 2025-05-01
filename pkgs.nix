@@ -1,5 +1,13 @@
 { pkgs, inputs, ... }:
-{
+let
+  catppuccin-sddm-custom = pkgs.catppuccin-sddm.override {
+    flavor = "macchiato";
+    font = "JetBrains Mono";
+    fontSize = "9";
+    background = "./sddm/wallpaper";
+    loginBackground = true;
+  };
+in{
 
   # Nixpkgs settings
   nixpkgs = {
@@ -14,11 +22,10 @@
     };
   };
   environment.systemPackages = with pkgs; [
-    # GUI Packages
+    catppuccin-sddm-custom
     catppuccin-cursors.macchiatoLight
     catppuccin-kvantum
     catppuccin-papirus-folders
-    catppuccin-sddm
     code-cursor
     kdePackages.bluez-qt
     kdePackages.bluedevil
@@ -26,6 +33,7 @@
     kdePackages.kate
     kdePackages.qtstyleplugin-kvantum
     kdePackages.sddm-kcm
+    kdePackages.plymouth-kcm
     kdePackages.plasma-nm
     kdePackages.dragon
     lutris
@@ -76,6 +84,7 @@
     ollama
     pkg-config
     qemu
+    qemu_kvm
     qt5.full
     syncthing
     unzip
@@ -99,7 +108,6 @@
     tmux
     nodejs
     psmisc
-
     bat
     docker-compose
     lazydocker
@@ -119,6 +127,7 @@
     appimage-run
     util-linux
     swayidle
+    adi1090x-plymouth-themes
     #Power Managemant
     auto-cpufreq
     tlp
@@ -129,11 +138,13 @@
     upower
     jre
     distrobox
+    tgpt
     # NUR Packages
     nur.repos.mikilio.ttf-ms-fonts
     nur.repos.shadowrz.klassy-qt6
     # nur.repos.zzzsy.zen-browser
   ];
+
   fonts = {
     packages = with pkgs; [ terminus_font ];
   };

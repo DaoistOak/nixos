@@ -48,6 +48,19 @@
     };
 
     preload.enable = true;
+    # scx.enable = true;
+  };
+
+  security.pam.services.passwd = {
+    text = ''
+      auth [success=1 default=ignore] pam_fprintd.so
+      auth [success=ok default=die] pam_unix.so try_first_pass
+      account required pam_unix.so
+      password sufficient pam_unix.so nullok yescrypt
+      session required pam_env.so conffile=/etc/pam/environment readenv=0
+      session required pam_unix.so
+      session required pam_limits.so conf=${pkgs.pam}/etc/security/limits.conf
+    '';
   };
   systemd.services.NetworkManager-wait-online.enable = true;
   powerManagement.powertop.enable = true;
