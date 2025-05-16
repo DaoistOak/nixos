@@ -20,7 +20,8 @@
   };
   boot.extraModulePackages = [ ];
   # Set the CachyOS kernel
-  boot.kernelPackages = pkgs.linuxPackages_cachyos;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+  # boot.kernelPackages = pkgs.linuxPackages_cachyos;
   # boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
   hardware = {
     enableRedistributableFirmware = true;

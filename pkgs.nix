@@ -51,8 +51,9 @@ in{
     times-newer-roman
     firefox
     qbittorrent
-    discord
     thunderbird
+    vesktop
+    webcord-vencord
     # TUI Packages
     automake
     btop
@@ -139,6 +140,7 @@ in{
     jre
     distrobox
     tgpt
+    networkmanagerapplet
     # NUR Packages
     nur.repos.mikilio.ttf-ms-fonts
     nur.repos.shadowrz.klassy-qt6

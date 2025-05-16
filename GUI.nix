@@ -7,7 +7,7 @@
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
-    theme = "catppuccin-macchiato";
+    theme = "kvantum";
   };
   # Enable KDE Plasma 6
   services.desktopManager.plasma6.enable = true;
