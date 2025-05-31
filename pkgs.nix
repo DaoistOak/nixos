@@ -22,129 +22,144 @@ in{
     };
   };
   environment.systemPackages = with pkgs; [
-    catppuccin-sddm-custom
-    catppuccin-cursors.macchiatoLight
-    catppuccin-kvantum
-    catppuccin-papirus-folders
-    code-cursor
-    kdePackages.bluez-qt
-    kdePackages.bluedevil
-    kdePackages.flatpak-kcm
-    kdePackages.kate
-    kdePackages.qtstyleplugin-kvantum
-    kdePackages.sddm-kcm
-    kdePackages.plymouth-kcm
-    kdePackages.plasma-nm
-    kdePackages.dragon
-    lutris
-    onlyoffice-desktopeditors
-    onlyoffice-documentserver
-    papirus-folders
-    syncthingtray
-    ungoogled-chromium
-    virt-manager
-    wineWowPackages.waylandFull
-    keepassxc
-    home-manager
-    oh-my-zsh
-    nil
-    times-newer-roman
-    firefox
-    qbittorrent
-    thunderbird
-    vesktop
-    webcord-vencord
-    # TUI Packages
-    automake
-    btop
-    busybox
-    cmake
-    curl
-    coreutils-full
-    gcc
-    glibc
-    glibc.dev
-    binutils
-    dnsmasq
-    eza
-    ffmpeg
-    fish
-    flatpak
-    fzf
-    git
-    glibc
-    gnumake
-    gnumake42
-    killall
-    libgcc
-    libgccjit
-    libvirt
-    virtiofsd
-    ninja
-    openssl
-    ollama
-    pkg-config
-    qemu
-    qemu_kvm
-    qt5.full
-    syncthing
-    unzip
-    vim
-    vimPlugins.nvchad
-    wget
-    zlib
-    zoxide
-    ntfs3g
-    neovim
-    kitty
-    bintools
-    gdb
-    OVMF
-    amdgpu_top
-    mesa
-    wl-clipboard
-    xclip
-    kbd
-    terminus_font
-    tmux
-    nodejs
-    psmisc
-    bat
-    docker-compose
-    lazydocker
-    luarocks
-    cargo
-    lm_sensors
-    brightnessctl
-    mesa
-    mesa-demos
-    vulkan-tools
-    amdvlk
-    pciutils
-    radeontop
-    spice
-    spice-vdagent
-    virglrenderer
-    appimage-run
-    util-linux
-    swayidle
-    adi1090x-plymouth-themes
-    #Power Managemant
-    auto-cpufreq
-    tlp
-    preload
-    powertop
-    thermald
-    cpufrequtils
-    upower
-    jre
-    distrobox
-    tgpt
-    networkmanagerapplet
-    # NUR Packages
-    nur.repos.mikilio.ttf-ms-fonts
-    nur.repos.shadowrz.klassy-qt6
-    # nur.repos.zzzsy.zen-browser
+adi1090x-plymouth-themes
+amdvlk
+appimage-run
+brave
+catppuccin-cursors.macchiatoLight
+catppuccin-kvantum
+catppuccin-papirus-folders
+catppuccin-sddm-custom
+code-cursor
+firefox
+gamescope
+kdePackages.bluedevil
+kdePackages.bluez-qt
+kdePackages.dragon
+kdePackages.flatpak-kcm
+kdePackages.kate
+kdePackages.plasma-nm
+kdePackages.plymouth-kcm
+kdePackages.qtstyleplugin-kvantum
+kdePackages.sddm-kcm
+keepassxc
+kitty
+lutris
+networkmanagerapplet
+nur.repos.shadowrz.klassy-qt6
+nur.repos.mikilio.ttf-ms-fonts
+onlyoffice-desktopeditors
+onlyoffice-documentserver
+papirus-folders
+qbittorrent
+syncthingtray
+terminus_font
+thunderbird
+times-newer-roman
+ungoogled-chromium
+vesktop
+virt-manager
+webcord-vencord
+wineWowPackages.waylandFull
+
+# CLI Packages (Divided into TUI, CLI with executables, CLI without executables)
+
+## TUI Packages (interactive terminal UIs)
+btop
+fish
+fzf
+kitty
+lazydocker
+neovim
+oh-my-zsh
+tmux
+vim
+vimPlugins.nvchad
+zoxide
+
+## CLI Packages with Executable Programs
+amdgpu_top
+auto-cpufreq
+automake
+bat
+brightnessctl
+busybox
+cargo
+cmake
+cpufrequtils
+curl
+dnsmasq
+distrobox
+docker-compose
+eza
+ffmpeg
+flatpak
+gcc
+gdb
+git
+gnumake
+gnumake42
+jre
+kbd
+killall
+lazydocker
+lm_sensors
+mesa
+mesa-demos
+ninja
+nodejs
+ntfs3g
+ollama
+openssl
+pciutils
+powertop
+preload
+psmisc
+qemu
+qemu_kvm
+radeontop
+spice
+spice-vdagent
+swayidle
+syncthing
+tgpt
+thermald
+tlp
+unzip
+upower
+util-linux
+wget
+wl-clipboard
+xclip
+OVMF
+
+## CLI Packages without Executables (Libraries, headers, dev files)
+binutils
+bintools
+coreutils-full
+glibc
+glibc.dev
+libdrm
+libgcc
+libgccjit
+libvirt
+libxkbcommon
+luarocks
+mesa
+nil
+pkg-config
+qt5.full
+radeontop
+virglrenderer
+virtiofsd
+vulkan-loader
+vulkan-tools
+vulkan-validation-layers
+zlib
+
+# Additional Tools
+home-manager
+# nur.repos.zzzsy.zen-browser  # (Commented out as requested)
   ];
 
   fonts = {

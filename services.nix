@@ -5,6 +5,7 @@
     ollama = {
       enable = true;
     };
+    xserver.videoDrivers = [ "amdgpu" ];
     xserver.xkb = {
       layout = "us";
       variant = "";

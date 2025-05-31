@@ -4,10 +4,11 @@
   imports =
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
+
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.kernelParams = [ "amdgpu.runpm=1" ];
+  boot.kernelParams = [ "amdgpu.runpm=1" "amdgpu.visvramlimit=8192" ];
   boot.plymouth = { 
     enable = true;
     theme = "seal_2";
@@ -23,8 +24,20 @@
   boot.kernelPackages = pkgs.linuxPackages_zen;
   # boot.kernelPackages = pkgs.linuxPackages_cachyos;
   # boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
+
   hardware = {
     enableRedistributableFirmware = true;
+
+    # Optional: enable Vulkan loader
+    # Changed from opengl.enable to hardware.graphics.enable (renamed option)
+    graphics.enable = true;
+
+    # If you want AMDVLK too:
+    # Changed from opengl.extraPackages to hardware.graphics.extraPackages (renamed option)
+    graphics.extraPackages = with pkgs; [ amdvlk ];
+
+    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    bluetooth.enable = true;
   };
 
   fileSystems."/" =
@@ -52,9 +65,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp2s0.useDHCP = lib.mkDefault true;
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  hardware.bluetooth.enable = true;
 
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
+
