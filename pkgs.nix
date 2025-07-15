@@ -25,7 +25,6 @@ in {
   environment.systemPackages = with pkgs; [
     # inputs.zen-browser.packages."${system}".twilight-official
     inputs.zen-browser.packages."x86_64-linux".default
-    cursor.packages.${pkgs.system}.default
     fuse3
     waydroid
 
