@@ -1,11 +1,6 @@
-{ pkgs, inputs, ... }:
+{pkgs,inputs,... }:
 
 let
-  # Manually import NUR
-  nur = import (builtins.fetchTarball {
-    url = "https://github.com/nix-community/NUR/archive/master.tar.gz";
-  }) { inherit pkgs; };
-
   catppuccin-sddm-custom = pkgs.catppuccin-sddm.override {
     flavor = "macchiato";
     font = "JetBrains Mono";
@@ -20,11 +15,22 @@ in {
     config = {
       allowUnfree = true;
       allowUnsupportedSystem = true;
+      packageOverrides = pkgs: {
+      nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+        inherit pkgs;
+      };
     };
   };
-
+  };
   environment.systemPackages = with pkgs; [
+    # inputs.zen-browser.packages."${system}".twilight-official
+    inputs.zen-browser.packages."x86_64-linux".default
+    cursor.packages.${pkgs.system}.default
+    fuse3
+    waydroid
+
     # GUI Apps
+    arduino-ide
     adi1090x-plymouth-themes
     amdvlk
     appimage-run
@@ -48,6 +54,7 @@ in {
     kitty
     lutris
     networkmanagerapplet
+    brave
     # nur.repos.shadowrz.klassy-qt6
     nur.repos.mikilio.ttf-ms-fonts
     onlyoffice-desktopeditors
@@ -61,6 +68,7 @@ in {
     ungoogled-chromium
     vesktop
     virt-manager
+    vscodium
     webcord-vencord
     wineWowPackages.waylandFull
 
@@ -106,6 +114,7 @@ in {
     lm_sensors
     mesa
     mesa-demos
+    mpv
     ninja
     nodejs
     ntfs3g
@@ -118,6 +127,7 @@ in {
     qemu
     qemu_kvm
     radeontop
+    speechd
     spice
     spice-vdagent
     swayidle
@@ -145,6 +155,10 @@ in {
     libvirt
     libxkbcommon
     luarocks
+    libva
+    libvdpau
+    vaapiVdpau
+    libvdpau-va-gl
     mesa
     nil
     pkg-config
@@ -156,7 +170,9 @@ in {
     vulkan-tools
     vulkan-validation-layers
     zlib
-
+    arduino-cli
+    picocom
+    screen
     # Tools
     home-manager
   ];

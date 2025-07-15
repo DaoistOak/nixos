@@ -12,16 +12,19 @@
   boot.plymouth = { 
     enable = true;
     theme = "seal_2";
-    themePackages = [
-      (pkgs.runCommand "adi1090x-plymouth-themes" { } ''
-        mkdir -p $out/share/plymouth/themes
-        cp -r ${/nix/store/gnn56cmpj4ch8glilj120k4ld4gvxlwa-adi1090x-plymouth-themes-1.0}/share/plymouth/themes/* $out/share/plymouth/themes/
-      '')
+    themePackages = [ pkgs.adi1090x-plymouth-themes
+      # (pkgs.runCommand "adi1090x-plymouth-themes" { } ''
+      #   mkdir -p $out/share/plymouth/themes
+      #   cp -r ${/nix/store/gnn56cmpj4ch8glilj120k4ld4gvxlwa-adi1090x-plymouth-themes-1.0}/share/plymouth/themes/* $out/share/plymouth/themes/
+      # '')
     ];
   };
+  boot.loader.systemd-boot.configurationLimit = 5;
   boot.extraModulePackages = [ ];
   # Set the CachyOS kernel
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_zen;
+  # boot.kernelPackages = pkgs.linuxPackages_lqx;
   # boot.kernelPackages = pkgs.linuxPackages_cachyos;
   # boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
 

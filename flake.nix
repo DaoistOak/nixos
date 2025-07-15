@@ -1,9 +1,15 @@
 {
-  description = "Nixos config flake";
+  description = "nixos config flake";
  
   inputs = {
     nixpkgs= {
-      url = "github:NixOS/nixpkgs/nixos-unstable";
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
+    zen-browser={
+      url = "github:youwen5/zen-browser-flake";
+    };
+    cursor={
+      url="github:omarcresp/cursor-flake/main";
     };
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -13,20 +19,22 @@
     chaotic = {
       url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     };
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = { self, nixpkgs, home-manager, chaotic, ... }@inputs: {
-    nixosConfigurations."Overlord" = nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs; };  # Pass inputs here
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.default
-        chaotic.nixosModules.nyx-cache
-        chaotic.nixosModules.nyx-overlay
-        chaotic.nixosModules.nyx-registry
-        # nixos-cachyos-kernel.nixosModules.default  # Add CachyOS kernel module
-      ];
-    };
+  nixosConfigurations."Overlord" = nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    specialArgs = { 
+        inherit inputs;
+      };
+    modules = [
+      ./configuration.nix
+      home-manager.nixosModules.default
+        # chaotic.nixosmodules.nyx-cache
+        # chaotic.nixosmodules.nyx-overlay
+        # chaotic.nixosmodules.nyx-registry
+    ];
   };
+};
 }
-

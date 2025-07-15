@@ -1,7 +1,9 @@
 { config, pkgs, ... }:
 
 {
+
   services = {
+
     ollama = {
       enable = true;
     };
@@ -30,9 +32,17 @@
       };
     };
 
-    udev.extraRules = ''
+    udev = {
+      extraRules = ''
       SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="ec:91:61:47:2d:13", NAME="wlan0"
     '';
+    };
+ 
+  avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = true;
+  };
 
     auto-cpufreq = {
       enable = true;
