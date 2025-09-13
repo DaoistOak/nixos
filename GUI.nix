@@ -29,7 +29,7 @@
 
   # Enable WirePlumber (PipeWire Session Manager)
   services.pipewire.wireplumber.enable = true;
-
+  services.pulseaudio.enable=false;
   # Enable real-time scheduling for better audio performance
   security.rtkit.enable = true;
 }

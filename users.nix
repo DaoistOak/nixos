@@ -6,7 +6,7 @@
     shell = pkgs.zsh;
     isNormalUser = true;
     description = "SD";
-    extraGroups = [ "networkmanager" "wheel" "audio" "libvirtd" "kvm" "qemu-libvirtd" "nixos" "dialout"];
+    extraGroups = [ "networkmanager" "wheel" "audio" "libvirtd" "kvm" "qemu-libvirtd" "nixos" "dialout" "video" "render" "seat"];
   };
 
   # User-specific environment variables
@@ -22,7 +22,7 @@
   programs.direnv.enableZshIntegration=true;
 
   # Enable Docker and add user to the group
+  virtualisation.waydroid.enable = true; 
   virtualisation.docker.enable = true;
   users.extraGroups.docker.members = [ "zeph" ];
-
-}
+ }

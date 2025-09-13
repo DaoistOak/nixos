@@ -40,6 +40,7 @@ in {
     code-cursor
     firefox
     gamescope
+    genymotion
     kdePackages.bluedevil
     kdePackages.bluez-qt
     kdePackages.dragon
@@ -51,9 +52,11 @@ in {
     kdePackages.sddm-kcm
     keepassxc
     kitty
+    lact
     lutris
     networkmanagerapplet
     brave
+    protonvpn-gui
     # nur.repos.shadowrz.klassy-qt6
     nur.repos.mikilio.ttf-ms-fonts
     onlyoffice-desktopeditors
@@ -75,16 +78,20 @@ in {
     btop
     fish
     fzf
+    gnirehtet
     kitty
     lazydocker
     neovim
     oh-my-zsh
     tmux
+    tabby
+    tabby-agent
     vim
     vimPlugins.nvchad
     zoxide
 
     # CLI Executables
+    alsa-utils
     amdgpu_top
     auto-cpufreq
     automake
@@ -119,15 +126,19 @@ in {
     ntfs3g
     ollama
     openssl
+    ocl-icd
+    intel-compute-runtime 
     pciutils
     powertop
     preload
     psmisc
+    pocl
     qemu
     qemu_kvm
-    radeontop
+    rocmPackages.clr
     speechd
     spice
+    spice-gtk
     spice-vdagent
     swayidle
     syncthing
@@ -141,7 +152,6 @@ in {
     wl-clipboard
     xclip
     OVMF
-
     # CLI Libraries / Dev
     binutils
     bintools

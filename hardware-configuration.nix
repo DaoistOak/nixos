@@ -7,7 +7,9 @@
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [ 
+    "kvm-amd" 
+  ];
   boot.kernelParams = [ "amdgpu.runpm=1" "amdgpu.visvramlimit=8192" ];
   boot.plymouth = { 
     enable = true;
@@ -29,6 +31,9 @@
   # boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
 
   hardware = {
+    amdgpu = {
+      amdvlk.enable = true;
+    };
     enableRedistributableFirmware = true;
 
     # Optional: enable Vulkan loader
