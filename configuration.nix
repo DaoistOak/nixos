@@ -61,10 +61,9 @@
   virtualisation.libvirtd = {
     enable = true;
     extraConfig = ''
-      virtiofsd = "/run/current-system/sw/bin/virtiofsd"
+      virtiofsd_path = "${pkgs.qemu}/bin/virtiofsd"
     '';
   };
-
   # Console settings
   # /run/current-system/sw/share/consolefonts/ter-u16n.psfu.gz
   console.font = "/run/current-system/sw/share/consolefonts/ter-u18n.psf.gz";

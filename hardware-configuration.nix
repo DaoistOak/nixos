@@ -5,48 +5,92 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
-  boot.initrd.kernelModules = [ "amdgpu" ];
-  boot.kernelModules = [ 
-    "kvm-amd" 
+boot = {
+  # --- Initrd & early modules ---
+  # These are the essential kernel modules for your hardware.
+  initrd.availableKernelModules = [
+    "nvme"
+    "xhci_pci"
+    "usb_storage"
+    "sd_mod"
+    "rtsx_pci_sdmmc"
   ];
-  boot.kernelParams = [ "amdgpu.runpm=1" "amdgpu.visvramlimit=8192" ];
-  boot.plymouth = { 
+
+  # Only keep "amdgpu" here if your initrd needs to show the splash early.
+  # Otherwise, Plymouth or early boot can freeze on some systems.
+  # If you get flicker/black screen early, comment this out.
+  initrd.kernelModules = [ "amdgpu" ];
+
+  # Core modules for AMD virtualization, etc.
+  kernelModules = [ "kvm-amd" ];
+
+  # --- Kernel Parameters ---
+  # Avoid experimental or deprecated AMDGPU params that can cause instability.
+  # "runpm=1" and "visvramlimit=8192" are NOT recommended on modern kernels.
+  # Safe defaults below include quiet boot and splash.
+  kernelParams = [
+    "quiet"
+    "splash"
+    "loglevel=3"
+    "rd.systemd.show_status=auto"
+  ];
+
+  # --- Plymouth (Boot Splash) ---
+  plymouth = {
     enable = true;
+    # Try "breeze" or "spinner" first if you see boot hangs.
     theme = "seal_2";
-    themePackages = [ pkgs.adi1090x-plymouth-themes
-      # (pkgs.runCommand "adi1090x-plymouth-themes" { } ''
-      #   mkdir -p $out/share/plymouth/themes
-      #   cp -r ${/nix/store/gnn56cmpj4ch8glilj120k4ld4gvxlwa-adi1090x-plymouth-themes-1.0}/share/plymouth/themes/* $out/share/plymouth/themes/
-      # '')
+    themePackages = [ pkgs.adi1090x-plymouth-themes ];
+  };
+
+  # --- Kernel Packages ---
+  # CachyOS kernel for performance (use linuxPackages_cachyos if built correctly)
+  kernelPackages = pkgs.linuxPackages_latest;
+  # Alternatives:
+  # kernelPackages = pkgs.linuxPackages_zen;
+  # kernelPackages = pkgs.linuxPackages_lqx;
+  # kernelPackages = pkgs.linuxPackages_cachyos;
+
+  # --- Bootloader ---
+  loader = {
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 5;
+    };
+    efi.canTouchEfiVariables = true;
+  };
+
+  # --- Misc ---
+  extraModulePackages = [ ];
+};
+
+hardware = {
+  enableAllFirmware = true;
+  enableRedistributableFirmware = true;
+
+  amdgpu = {
+    # Optional settings can go here
+    opencl.enable = true; # if you use ROCm/OpenCL
+  };
+
+  cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  bluetooth.enable = true;
+
+  graphics = {
+    enable = true;
+    enable32Bit = true;
+
+    extraPackages = with pkgs; [
+      mesa
+      vulkan-loader         # ensures Vulkan runtime is installed
+      vulkan-validation-layers
+    ];
+    extraPackages32 = with pkgs; [
+      pkgsi686Linux.mesa
     ];
   };
-  boot.loader.systemd-boot.configurationLimit = 5;
-  boot.extraModulePackages = [ ];
-  # Set the CachyOS kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  # boot.kernelPackages = pkgs.linuxPackages_zen;
-  # boot.kernelPackages = pkgs.linuxPackages_lqx;
-  # boot.kernelPackages = pkgs.linuxPackages_cachyos;
-  # boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
+};
 
-  hardware = {
-    amdgpu = {
-      amdvlk.enable = true;
-    };
-    enableRedistributableFirmware = true;
-
-    # Optional: enable Vulkan loader
-    # Changed from opengl.enable to hardware.graphics.enable (renamed option)
-    graphics.enable = true;
-
-    # If you want AMDVLK too:
-    # Changed from opengl.extraPackages to hardware.graphics.extraPackages (renamed option)
-    graphics.extraPackages = with pkgs; [ amdvlk ];
-
-    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    bluetooth.enable = true;
-  };
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/810473a7-303c-422f-8044-62bb49e4dc40";

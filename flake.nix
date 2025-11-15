@@ -17,6 +17,7 @@
       url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     };
     flake-utils.url = "github:numtide/flake-utils";
+    winboat.url = "github:TibixDev/winboat";
   };
 
   outputs = { self, nixpkgs, home-manager, chaotic, ... }@inputs: {

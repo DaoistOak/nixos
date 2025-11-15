@@ -55,11 +55,7 @@
 
     preload.enable = true;
     seatd.enable = true;
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-      theme = "catppuccin-macchiato";
-    };
+    fwupd.enable = true;
   };
 
   security.pam.services.passwd.text = ''

@@ -3,9 +3,10 @@
 let
   catppuccin-sddm-custom = pkgs.catppuccin-sddm.override {
     flavor = "macchiato";
+    accent = "mauve";
     font = "JetBrains Mono";
     fontSize = "9";
-    background = "./sddm/wallpaper";
+    background = "${./sddm/wallpaper}";
     loginBackground = true;
   };
 in {
@@ -25,13 +26,13 @@ in {
   environment.systemPackages = with pkgs; [
     # inputs.zen-browser.packages."${system}".twilight-official
     inputs.zen-browser.packages."x86_64-linux".default
+    inputs.winboat.packages.x86_64-linux.winboat
     fuse3
     waydroid
 
     # GUI Apps
     arduino-ide
     adi1090x-plymouth-themes
-    amdvlk
     appimage-run
     catppuccin-cursors.macchiatoLight
     catppuccin-kvantum
@@ -46,6 +47,7 @@ in {
     kdePackages.dragon
     kdePackages.flatpak-kcm
     kdePackages.kate
+    kdePackages.kwallet-pam
     kdePackages.plasma-nm
     kdePackages.plymouth-kcm
     kdePackages.qtstyleplugin-kvantum
@@ -55,14 +57,15 @@ in {
     lact
     lutris
     networkmanagerapplet
+    nexusmods-app
     brave
     protonvpn-gui
+    popcorntime
     # nur.repos.shadowrz.klassy-qt6
     nur.repos.mikilio.ttf-ms-fonts
-    onlyoffice-desktopeditors
-    onlyoffice-documentserver
     papirus-folders
     qbittorrent
+    steam
     syncthingtray
     terminus_font
     thunderbird
@@ -78,9 +81,12 @@ in {
     btop
     fish
     fzf
+    freerdp
     gnirehtet
+    kdePackages.yakuake
     kitty
     lazydocker
+    libnotify
     neovim
     oh-my-zsh
     tmux
@@ -156,8 +162,10 @@ in {
     binutils
     bintools
     coreutils-full
+    dxvk
     glibc
     glibc.dev
+    icu77
     libdrm
     libgcc
     libgccjit
@@ -166,15 +174,15 @@ in {
     luarocks
     libva
     libvdpau
-    vaapiVdpau
     libvdpau-va-gl
     mesa
     nil
     pkg-config
-    qt5.full
     radeontop
     virglrenderer
     virtiofsd
+    vkd3d
+    vkd3d-proton
     vulkan-loader
     vulkan-tools
     vulkan-validation-layers
@@ -185,11 +193,6 @@ in {
     # Tools
     home-manager
   ];
-
-  fonts = {
-    packages = with pkgs; [ terminus_font ];
-  };
-
   virtualisation.docker.enable = true;
   services.flatpak.enable = true;
   users.extraGroups.docker.members = [ "zeph" ];
