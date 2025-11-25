@@ -7,7 +7,6 @@
 
 boot = {
   # --- Initrd & early modules ---
-  # These are the essential kernel modules for your hardware.
   initrd.availableKernelModules = [
     "nvme"
     "xhci_pci"
@@ -16,18 +15,21 @@ boot = {
     "rtsx_pci_sdmmc"
   ];
 
-  # Only keep "amdgpu" here if your initrd needs to show the splash early.
-  # Otherwise, Plymouth or early boot can freeze on some systems.
-  # If you get flicker/black screen early, comment this out.
   initrd.kernelModules = [ "amdgpu" ];
 
-  # Core modules for AMD virtualization, etc.
-  kernelModules = [ "kvm-amd" ];
+  # Core modules (added binder + ashmem)
+  kernelModules = [
+    "kvm-amd"
+    "binder_linux"
+    "ashmem_linux"
+  ];
+
+  # Needed for Waydroid binder functionality
+  extraModprobeConfig = ''
+    options binder_linux devices=binder,hwbinder,vndbinder
+  '';
 
   # --- Kernel Parameters ---
-  # Avoid experimental or deprecated AMDGPU params that can cause instability.
-  # "runpm=1" and "visvramlimit=8192" are NOT recommended on modern kernels.
-  # Safe defaults below include quiet boot and splash.
   kernelParams = [
     "quiet"
     "splash"
@@ -38,16 +40,14 @@ boot = {
   # --- Plymouth (Boot Splash) ---
   plymouth = {
     enable = true;
-    # Try "breeze" or "spinner" first if you see boot hangs.
     theme = "seal_2";
     themePackages = [ pkgs.adi1090x-plymouth-themes ];
   };
-
   # --- Kernel Packages ---
   # CachyOS kernel for performance (use linuxPackages_cachyos if built correctly)
-  kernelPackages = pkgs.linuxPackages_latest;
+  # kernelPackages = pkgs.linuxPackages_latest;
   # Alternatives:
-  # kernelPackages = pkgs.linuxPackages_zen;
+  kernelPackages = pkgs.linuxPackages_zen;
   # kernelPackages = pkgs.linuxPackages_lqx;
   # kernelPackages = pkgs.linuxPackages_cachyos;
 

@@ -10,7 +10,10 @@
     theme = "catppuccin-macchiato-mauve";
   };
   # Enable KDE Plasma 6
-  services.desktopManager.plasma6.enable = true;
+  services.desktopManager.plasma6= {
+    enable = true;
+    # Now nest your KWin tweaks here—this is the correct path
+  };
 # --- KWallet 6 auto-unlock at login ---------------------------
   security.pam.services.sddm.enableKwallet = true;     # still works
   # --- Ensure kwalletd6 is running -------------------------------
@@ -25,13 +28,15 @@
   # Enable Hyprland (Optional)
   programs.hyprland ={
     enable = true;
-    xwayland.enable = true;
   };
+  programs.steam.enable = true;
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;  # Use portal for file pickers too
     configPackages = [ pkgs.kdePackages.xdg-desktop-portal-kde ];  # Or -kde for Plasma
-    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];  # wlr for wlroots-based WMs like Hyprland/Sway
+    extraPortals = [  pkgs.kdePackages.xdg-desktop-portal-kde ];
+      # pkgs.xdg-desktop-portal-wlr ];  # wlr for wlroots-based WMs like Hyprland/Sway
+
   };
   # PipeWire (Audio)
   services.pipewire = {
@@ -41,7 +46,7 @@
     pulse.enable = true;
     jack.enable = false;
   };
-  
+ 
   # Enable WirePlumber (PipeWire Session Manager)
   services.pipewire.wireplumber.enable = true;
   services.pulseaudio.enable=false;

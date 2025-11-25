@@ -65,7 +65,6 @@ in {
     nur.repos.mikilio.ttf-ms-fonts
     papirus-folders
     qbittorrent
-    steam
     syncthingtray
     terminus_font
     thunderbird
